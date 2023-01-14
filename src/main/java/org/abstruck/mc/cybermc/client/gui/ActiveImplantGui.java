@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.abstruck.mc.cybermc.Utils;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -36,7 +37,6 @@ public class ActiveImplantGui extends AbstractGui {
     }
 
     public void render(@NotNull List<Implant> activeImplantList, int currentIndexImplant){
-        System.out.println("rending...");
         this.activeImplantList = activeImplantList;
         this.currentIndexImplant = currentIndexImplant;
         this.minecraft.getTextureManager().bind(HUD);
@@ -44,5 +44,6 @@ public class ActiveImplantGui extends AbstractGui {
         // Render item using matrixStack
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         itemRenderer.renderGuiItem(new ItemStack(activeImplantList.get(currentIndexImplant)),width/2,height/2);
+        LogManager.getLogger().info("rending");
     }
 }

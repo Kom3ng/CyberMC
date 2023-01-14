@@ -17,14 +17,14 @@ public class ItemInit {
     private static Set<Implant> implants;
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
 
-    public static final RegistryObject<Item> SANDVISTAN = REGISTER.register("sandvistan", Sandevistan::new);
+    public static final RegistryObject<Item> SANDEVISTAN = REGISTER.register("sandevistan", Sandevistan::new);
 
     public static final RegistryObject<Item> OPERATING_TABLE = REGISTER.register("operating_table",() -> new BlockItem(BlockInit.OPERATING_TABLE.get(), new Item.Properties().tab(ModGroup.MACHINE_GROUP)));
 
     private static void initImplantItem(){
         implants = new HashSet<>();
 
-        implants.add((Implant) SANDVISTAN.get());
+        implants.add((Implant) SANDEVISTAN.get());
     }
 
     public static Set<Implant> getImplants() {

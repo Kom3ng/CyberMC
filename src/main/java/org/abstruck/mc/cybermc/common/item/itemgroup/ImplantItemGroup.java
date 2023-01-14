@@ -13,6 +13,6 @@ public class ImplantItemGroup extends ItemGroup {
     @Override
     @NotNull
     public ItemStack makeIcon() {
-        return new ItemStack(ItemInit.SANDVISTAN.get());
+        return new ItemStack(ItemInit.SANDEVISTAN.get());
     }
 }

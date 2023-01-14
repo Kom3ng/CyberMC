@@ -4,8 +4,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import org.abstruck.mc.cybermc.common.item.implant.IActive;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -13,6 +15,9 @@ import java.util.stream.Collectors;
 
 public class CyberMcCapability implements ICyberMcCapability{
     Map<ImplantType,List<Implant>> typeImplantMap = new HashMap<>();
+    List<Implant> activeImplants = new ArrayList<>();
+    int currentImplantIndex = 0;
+    boolean isShowHud = false;
 
     /**
      * @return 如果没有implant则会返回一个空的列表
@@ -50,7 +55,7 @@ public class CyberMcCapability implements ICyberMcCapability{
     }
 
     @Override
-    public void addImplant(Implant implant) {
+    public void addImplant(@NotNull Implant implant) {
         ImplantType type = implant.getType();
         if (!typeImplantMap.containsKey(type) || typeImplantMap.get(type) == null){
             typeImplantMap.put(type, Collections.singletonList(implant));
@@ -58,6 +63,30 @@ public class CyberMcCapability implements ICyberMcCapability{
         }
 
         typeImplantMap.get(type).add(implant);
+    }
+
+    @Override
+    public void switchHudState(){
+        isShowHud = !isShowHud;
+    }
+    @Override
+    public boolean getHudState(){
+        return isShowHud;
+    }
+
+    @Override
+    public int getCurrentImplantIndex() {
+        return currentImplantIndex;
+    }
+
+    @Override
+    public List<Implant> getActiveImplants() {
+        return activeImplants;
+    }
+
+    @Override
+    public void nextActiveImplant() {
+        currentImplantIndex = (currentImplantIndex + 1) % activeImplants.size();
     }
 
     @Override
@@ -111,7 +140,7 @@ public class CyberMcCapability implements ICyberMcCapability{
 
             typeImplantMap.put(type,implants);
         }
+
+        this.activeImplants = this.getAllImplants().stream().filter(implant -> implant instanceof IActive).collect(Collectors.toList());
     }
-
-
 }

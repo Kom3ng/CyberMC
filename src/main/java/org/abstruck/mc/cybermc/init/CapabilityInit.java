@@ -21,6 +21,7 @@ public class CapabilityInit {
                     if (instance == null){
                         return null;
                     }
+
                     return instance.serializeNBT();
                 }
 

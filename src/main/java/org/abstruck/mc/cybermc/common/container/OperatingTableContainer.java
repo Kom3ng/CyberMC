@@ -101,23 +101,38 @@ public class OperatingTableContainer extends Container {
     }
 
     public void initImplantInventory(){
-        PlayerEntity player = getPlayerInventory().player;
-        for (int typeIndex = 0, index = 0;index<getImplantInventory().getContainerSize() && typeIndex<ImplantType.values().length; index +=3,typeIndex++){
-            int finalTypeIndex = typeIndex;
-            List<Implant> implants = new ArrayList<>();
-            player.getCapability(ModCapability.CAP).ifPresent(cap -> implants.addAll(cap.getImplants(ImplantType.values()[finalTypeIndex])));
+//        PlayerEntity player = getPlayerInventory().player;
+//        for (int typeIndex = 0, index = 0;index<getImplantInventory().getContainerSize() && typeIndex<ImplantType.values().length; index +=3,typeIndex++){
+//            int finalTypeIndex = typeIndex;
+//            List<Implant> implants = new ArrayList<>();
+//            player.getCapability(ModCapability.CAP).ifPresent(cap -> implants.addAll(cap.getImplants(ImplantType.values()[finalTypeIndex])));
+//
+//            if (implants.isEmpty()){
+//                continue;
+//            }
+//            for (int i = 0;i<3;i++){
+//                if (implants.size()<=i){
+//                    break;
+//                }
+//                getImplantInventory().setItem(index,new ItemStack(implants.get(i)));
+//            }
+//        }
 
-            if (implants.isEmpty()){
-                continue;
-            }
-            for (int i = 0;i<3;i++){
-                if (implants.size()<=i){
-                    break;
+        PlayerEntity player = getPlayerInventory().player;
+
+        Map<ImplantType,List<Implant>> map = new HashMap<>();
+        player.getCapability(ModCapability.CAP).ifPresent(cap -> Arrays.stream(ImplantType.values()).forEach(type -> map.put(type,cap.getImplants(type))));
+
+        for (int i = 0;i < getImplantInventory().getContainerSize();){
+            for (int j = 0;j<3;j++){
+                if (map.get(ImplantType.values()[i/3]).size()>j){
+                    getImplantInventory().setItem(i,new ItemStack(map.get(ImplantType.values()[i/3]).get(j)));
                 }
-                getImplantInventory().setItem(index,new ItemStack(implants.get(i)));
+                i++;
             }
         }
     }
+
 
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull PlayerEntity pPlayer, int pIndex) {
