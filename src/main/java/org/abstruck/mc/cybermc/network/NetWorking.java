@@ -26,5 +26,10 @@ public class NetWorking {
                 .decoder(ActivateImplantPack::decode)
                 .consumer(ActivateImplantPack::handler)
                 .add();
+        INSTANCE.messageBuilder(ClientUpdateActiveImplantListPack.class,nextID())
+                .encoder(ClientUpdateActiveImplantListPack::encode)
+                .decoder(ClientUpdateActiveImplantListPack::decode)
+                .consumer(ClientUpdateActiveImplantListPack::handle)
+                .add();
     }
 }

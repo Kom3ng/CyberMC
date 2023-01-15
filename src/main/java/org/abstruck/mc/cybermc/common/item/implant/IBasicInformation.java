@@ -4,4 +4,5 @@ public interface IBasicInformation {
     String getName();
     ImplantType getType();
 
+    int getWeight();
 }

@@ -8,4 +8,14 @@ public class Sandevistan extends BackboneImplant implements IActive {
     public String getName() {
         return NAME;
     }
+
+    @Override
+    public int getCoolDownTime() {
+        return 200;
+    }
+
+    @Override
+    public int getWeight() {
+        return 10000;
+    }
 }

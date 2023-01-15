@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import org.abstruck.mc.cybermc.common.item.implant.IActive;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
+import org.abstruck.mc.cybermc.common.utils.ImplantUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,25 +17,14 @@ import java.util.stream.Collectors;
 public class CyberMcCapability implements ICyberMcCapability{
     Map<ImplantType,List<Implant>> typeImplantMap = new HashMap<>();
     List<Implant> activeImplants = new ArrayList<>();
-    int currentImplantIndex = 0;
-    boolean isShowHud = false;
+
 
     /**
      * @return 如果没有implant则会返回一个空的列表
      */
     @Override
     public List<Implant> getAllImplants() {
-        List<Implant> result = new ArrayList<>();
-
-        for (List<Implant> value : typeImplantMap.values()){
-            //检查列表是否为空
-            if (value == null || value.isEmpty()){
-                continue;
-            }
-            result.addAll(value.stream().filter(Objects::nonNull).collect(Collectors.toList()));
-        }
-
-        return result;
+        return ImplantUtil.readAllImplants(typeImplantMap);
     }
 
     /**
@@ -66,28 +56,10 @@ public class CyberMcCapability implements ICyberMcCapability{
     }
 
     @Override
-    public void switchHudState(){
-        isShowHud = !isShowHud;
-    }
-    @Override
-    public boolean getHudState(){
-        return isShowHud;
+    public Map<ImplantType, List<Implant>> getTypeImplantMap() {
+        return typeImplantMap;
     }
 
-    @Override
-    public int getCurrentImplantIndex() {
-        return currentImplantIndex;
-    }
-
-    @Override
-    public List<Implant> getActiveImplants() {
-        return activeImplants;
-    }
-
-    @Override
-    public void nextActiveImplant() {
-        currentImplantIndex = (currentImplantIndex + 1) % activeImplants.size();
-    }
 
     @Override
     public CompoundNBT serializeNBT() {

@@ -17,10 +17,5 @@ public interface ICyberMcCapability extends INBTSerializable<CompoundNBT> {
 
     public void addImplant(Implant implant);
 
-    public void switchHudState();
-    public boolean getHudState();
-    public int getCurrentImplantIndex();
-    public List<Implant> getActiveImplants();
-
-    public void nextActiveImplant();
+    public Map<ImplantType,List<Implant>> getTypeImplantMap();
 }

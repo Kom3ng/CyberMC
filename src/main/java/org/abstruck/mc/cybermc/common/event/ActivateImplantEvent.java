@@ -10,7 +10,6 @@ public class ActivateImplantEvent extends PlayerEvent {
     Implant implant;
     public ActivateImplantEvent(PlayerEntity player, Implant implant) {
         super(player);
-        System.out.println("event created");
         this.implant = implant;
     }
 

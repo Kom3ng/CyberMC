@@ -33,7 +33,6 @@ public class ActivateImplantPack {
     public void handler(@NotNull Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             MinecraftForge.EVENT_BUS.post(new ActivateImplantEvent(player,implant));
-            System.out.println("packet received");
         });
         ctx.get().setPacketHandled(true);
     }

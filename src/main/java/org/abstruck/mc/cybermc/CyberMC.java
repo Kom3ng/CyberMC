@@ -10,6 +10,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.abstruck.mc.cybermc.client.event.KeyBoardInputHandler;
 import org.abstruck.mc.cybermc.init.*;
 import org.abstruck.mc.cybermc.network.NetWorking;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +25,8 @@ public class CyberMC {
 
     public CyberMC() {
         init(FMLJavaModLoadingContext.get().getModEventBus());
+
+        Class<KeyBoardInputHandler> keyBoardInputHandlerClass = KeyBoardInputHandler.class;
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);

@@ -6,6 +6,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
@@ -17,7 +18,14 @@ import org.abstruck.mc.cybermc.common.capability.CyberMcCapabilityProvider;
 import org.abstruck.mc.cybermc.common.capability.ICyberMcCapability;
 import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.abstruck.mc.cybermc.common.container.OperatingTableContainer;
+import org.abstruck.mc.cybermc.common.event.ImplantChangeEvent;
+import org.abstruck.mc.cybermc.common.item.implant.Implant;
+import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class CapabilityHandler {
@@ -44,7 +52,7 @@ public class CapabilityHandler {
         assert server != null;
         boolean keepInventory = server.getGameRules().getBoolean(new GameRules.RuleKey<>("keepInventory", GameRules.Category.PLAYER));
 
-        if (!keepInventory || event.isWasDeath()){
+        if (!keepInventory && event.isWasDeath()){
             return;
         }
 
@@ -64,6 +72,9 @@ public class CapabilityHandler {
 
         OperatingTableContainer operatingTableContainer = (OperatingTableContainer) event.getContainer();
 
-        event.getPlayer().getCapability(ModCapability.CAP).ifPresent(cap -> cap.setTypeImplantMap(operatingTableContainer.getTypeImplantMap()));
+        Map<ImplantType, List<Implant>> oldImplantTypeMap = new HashMap<>();
+        event.getPlayer().getCapability(ModCapability.CAP).ifPresent(cap -> oldImplantTypeMap.putAll(cap.getTypeImplantMap()));
+
+        MinecraftForge.EVENT_BUS.post(new ImplantChangeEvent(event.getPlayer(), operatingTableContainer.getTypeImplantMap(),oldImplantTypeMap));
     }
 }

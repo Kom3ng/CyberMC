@@ -6,14 +6,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-import org.abstruck.mc.cybermc.client.event.KeyBoardInputHandler;
 import org.abstruck.mc.cybermc.client.gui.ActiveImplantGui;
-import org.abstruck.mc.cybermc.common.capability.ModCapability;
+import org.abstruck.mc.cybermc.client.profile.PlayerProfile;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class HudRenderHandler {
@@ -25,17 +21,16 @@ public class HudRenderHandler {
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) {
             return;
         }
-        if (Minecraft.getInstance().player == null || ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(Minecraft.getInstance().player.getUUID())==null){
+        if (Minecraft.getInstance().player == null){
             return;
         }
-        AtomicBoolean hudState = new AtomicBoolean(false);
-
-        ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(Minecraft.getInstance().player.getUUID()).getCapability(ModCapability.CAP).ifPresent(cap -> hudState.set(cap.getHudState()));
-        if (!hudState.get()){
+        if (!PlayerProfile.getInstance().getHudState()){
             return;
         }
-        LogManager.getLogger().info("start rend");
-        GUI.render(KeyBoardInputHandler.activeImplants,KeyBoardInputHandler.currentImplantIndex);
+        if (PlayerProfile.getInstance().getActiveImplants().isEmpty()){
+            return;
+        }
+        GUI.render(PlayerProfile.getInstance().getActiveImplants(), PlayerProfile.getInstance().getCurrentImplantIndex());
 
     }
 
