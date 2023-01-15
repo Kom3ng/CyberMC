@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "cybermc.refmap.json",
   "mixins": [
+    "UtilMixin"
   ],
   "client": [
   ],

@@ -1,8 +1,12 @@
 package org.abstruck.mc.cybermc.common.item.implant;
 
-public interface IBasicInformation {
-    String getName();
-    ImplantType getType();
+import org.jetbrains.annotations.NotNull;
 
+public interface IBasicInformation {
+    @NotNull String getName();
+    @NotNull ImplantType getType();
     int getWeight();
+    int getProficiency();
+    int getSanForeverConsume();
+
 }

@@ -16,6 +16,6 @@ public class ActivateImplantHandler {
             return;
         }
         event.getPlayer().getCooldowns().addCooldown(implant, ((IActive) implant).getCoolDownTime());
-        event.getPlayer().kill();
+        ((IActive) implant).onActivate(event);
     }
 }

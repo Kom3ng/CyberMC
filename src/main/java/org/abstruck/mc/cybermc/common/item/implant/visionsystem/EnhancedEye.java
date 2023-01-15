@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class EnhancedEye extends VisionSystemImplant implements IPassive {
     public static final String NAME = "Enhanced Eye";
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return NAME;
     }
     @Override
