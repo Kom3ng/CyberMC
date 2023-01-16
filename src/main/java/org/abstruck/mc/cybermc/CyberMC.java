@@ -1,11 +1,10 @@
 package org.abstruck.mc.cybermc;
 
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -14,8 +13,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.abstruck.mc.cybermc.client.handler.KeyBoardInputHandler;
-import org.abstruck.mc.cybermc.common.entity.monster.CyberLunatic;
-import org.abstruck.mc.cybermc.common.entity.monster.render.CyberLunaticRender;
 import org.abstruck.mc.cybermc.init.*;
 import org.abstruck.mc.cybermc.network.NetWorking;
 import org.apache.logging.log4j.LogManager;
@@ -54,9 +51,11 @@ public class CyberMC {
         event.enqueueWork(NetWorking::registerMessage);
     }
 
+    @OnlyIn(Dist.CLIENT)
     private void doClientStuff(final FMLClientSetupEvent event) {
         ScreenInit.register(event);
         KeyBindInit.register(event);
+        RenderInit.register();
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

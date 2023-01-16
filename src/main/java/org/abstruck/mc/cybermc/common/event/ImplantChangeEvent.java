@@ -19,8 +19,6 @@ public class ImplantChangeEvent extends PlayerEvent {
         super(player);
         this.implantTypeListMap = implantTypeListMap;
         this.oldImplantTypeMap = oldImplantTypeMap;
-
-
     }
 
     public Map<ImplantType, List<Implant>> getImplantTypeListMap() {

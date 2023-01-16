@@ -2,6 +2,7 @@ package org.abstruck.mc.cybermc.common.handler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.GameRules;
@@ -14,8 +15,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.abstruck.mc.cybermc.Utils;
-import org.abstruck.mc.cybermc.common.capability.CyberMcCapabilityProvider;
-import org.abstruck.mc.cybermc.common.capability.ICyberMcCapability;
+import org.abstruck.mc.cybermc.common.capability.item.ImplantCapabilityProvider;
+import org.abstruck.mc.cybermc.common.capability.player.CyberPlayerDataProvider;
+import org.abstruck.mc.cybermc.common.capability.player.ICyberPlayerDataCapability;
 import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.abstruck.mc.cybermc.common.container.OperatingTableContainer;
 import org.abstruck.mc.cybermc.common.event.ImplantChangeEvent;
@@ -30,12 +32,20 @@ import java.util.Map;
 @Mod.EventBusSubscriber
 public class CapabilityHandler {
     @SubscribeEvent
-    public static void attachCapability(@NotNull AttachCapabilitiesEvent<Entity> event){
+    public static void attachPlayerCapability(@NotNull AttachCapabilitiesEvent<Entity> event){
 
         if (!(event.getObject() instanceof PlayerEntity)){
             return;
         }
-        event.addCapability(new ResourceLocation(Utils.MOD_ID, "mod_cap"), new CyberMcCapabilityProvider());
+        event.addCapability(new ResourceLocation(Utils.MOD_ID, "player_cap"), new CyberPlayerDataProvider());
+    }
+
+    @SubscribeEvent
+    public static void attachItemStackCapability(@NotNull AttachCapabilitiesEvent<ItemStack> event){
+        if (!(event.getObject().getItem() instanceof Implant)){
+            return;
+        }
+        event.addCapability(new ResourceLocation(Utils.MOD_ID, "item_cap"), new ImplantCapabilityProvider());
     }
 
     @SubscribeEvent
@@ -56,8 +66,8 @@ public class CapabilityHandler {
             return;
         }
 
-        LazyOptional<ICyberMcCapability> oldCyberCap = event.getOriginal().getCapability(ModCapability.CAP);
-        LazyOptional<ICyberMcCapability> newCyberCap = player.getCapability(ModCapability.CAP);
+        LazyOptional<ICyberPlayerDataCapability> oldCyberCap = event.getOriginal().getCapability(ModCapability.CYBER_PLAYER_DATA_CAP);
+        LazyOptional<ICyberPlayerDataCapability> newCyberCap = player.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP);
 
         if (oldCyberCap.isPresent() && newCyberCap.isPresent()){
             newCyberCap.ifPresent(newCap -> {oldCyberCap.ifPresent(oldCap -> newCap.deserializeNBT(oldCap.serializeNBT()));});
@@ -73,7 +83,7 @@ public class CapabilityHandler {
         OperatingTableContainer operatingTableContainer = (OperatingTableContainer) event.getContainer();
 
         Map<ImplantType, List<Implant>> oldImplantTypeMap = new HashMap<>();
-        event.getPlayer().getCapability(ModCapability.CAP).ifPresent(cap -> oldImplantTypeMap.putAll(cap.getTypeImplantMap()));
+        event.getPlayer().getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> oldImplantTypeMap.putAll(cap.getTypeImplantMap()));
 
         MinecraftForge.EVENT_BUS.post(new ImplantChangeEvent(event.getPlayer(), operatingTableContainer.getTypeImplantMap(),oldImplantTypeMap));
     }

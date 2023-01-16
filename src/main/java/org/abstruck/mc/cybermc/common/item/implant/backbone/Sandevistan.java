@@ -1,15 +1,17 @@
 package org.abstruck.mc.cybermc.common.item.implant.backbone;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.FrameTimer;
-import net.minecraft.util.Timer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.common.MinecraftForge;
+import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.abstruck.mc.cybermc.common.event.ActivateImplantEvent;
+import org.abstruck.mc.cybermc.common.event.ProficiencyUpEvent;
 import org.abstruck.mc.cybermc.common.item.implant.IActive;
 import org.jetbrains.annotations.NotNull;
 
 public class Sandevistan extends BackboneImplant implements IActive {
     final String NAME = "Sandevistan";
-    int proficiency;
+//    ImplantProficiencyLevel level;
+//    int proficiency;
     @Override
     public @NotNull String getName() {
         return NAME;
@@ -21,27 +23,39 @@ public class Sandevistan extends BackboneImplant implements IActive {
     }
 
     @Override
-    public void onActivate(ActivateImplantEvent event) {
-
+    public void onActivate(@NotNull ActivateImplantEvent event) {
+        consumeSan(event.getPlayer());
+//        proficiency++;
+        MinecraftForge.EVENT_BUS.post(new ProficiencyUpEvent(event.getPlayer(), this));
     }
 
     @Override
-    public void consumeSan() {
-
+    public void consumeSan(@NotNull PlayerEntity player) {
+        player.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> cap.consumeSan(100));
     }
 
     @Override
     public int getWeight() {
-        return 10000;
+        return 100000000;
     }
 
-    @Override
-    public int getProficiency() {
-        return 0;
-    }
+//    @Override
+//    public int getProficiency() {
+//        return 0;
+//    }
 
     @Override
     public int getSanForeverConsume() {
-        return 0;
+        return 254999;
     }
+
+//    @Override
+//    public ImplantProficiencyLevel getProficiencyLevel() {
+//        return level;
+//    }
+
+//    @Override
+//    public void setLevel(ImplantProficiencyLevel level) {
+//        this.level = level;
+//    }
 }

@@ -6,7 +6,8 @@ public interface IBasicInformation {
     @NotNull String getName();
     @NotNull ImplantType getType();
     int getWeight();
-    int getProficiency();
+//    int getProficiency();
     int getSanForeverConsume();
-
+//    ImplantProficiencyLevel getProficiencyLevel();
+//    void setLevel(ImplantProficiencyLevel level);
 }

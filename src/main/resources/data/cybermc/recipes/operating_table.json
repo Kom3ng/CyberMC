@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#*#",
+    "*B*",
+    "#*#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "*": {
+      "item": "minecraft:air"
+    },
+    "B": {
+      "item": "minecraft:white_bed"
+    }
+  },
+  "result": {
+    "item": "cybermc:operating_table",
+    "count": 1
+  }
+}

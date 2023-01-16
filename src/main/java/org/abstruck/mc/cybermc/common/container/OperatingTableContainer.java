@@ -3,7 +3,6 @@ package org.abstruck.mc.cybermc.common.container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -24,7 +23,7 @@ public class OperatingTableContainer extends Container {
     public OperatingTableContainer(int id, @NotNull PlayerInventory playerInventory, BlockPos blockPos) {
         super(ContainerTypeInit.OPERATING_TABLE_CONTAINER_TYPE.get(), id);
         this.playerInventory = playerInventory;
-        this.implantInventory = new ImplantInventory(playerInventory.player);
+        this.implantInventory = new ImplantInventory();
 
         initImplantInventory();
 
@@ -97,6 +96,7 @@ public class OperatingTableContainer extends Container {
         return result;
     }
     public IInventory getImplantInventory() {
+        this.playerInventory.player.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> implantInventory = cap.getImplantInventory());
         return implantInventory;
     }
 
@@ -117,20 +117,20 @@ public class OperatingTableContainer extends Container {
 //                getImplantInventory().setItem(index,new ItemStack(implants.get(i)));
 //            }
 //        }
-
-        PlayerEntity player = getPlayerInventory().player;
-
-        Map<ImplantType,List<Implant>> map = new HashMap<>();
-        player.getCapability(ModCapability.CAP).ifPresent(cap -> Arrays.stream(ImplantType.values()).forEach(type -> map.put(type,cap.getImplants(type))));
-
-        for (int i = 0;i < getImplantInventory().getContainerSize();){
-            for (int j = 0;j<3;j++){
-                if (map.get(ImplantType.values()[i/3]).size()>j){
-                    getImplantInventory().setItem(i,new ItemStack(map.get(ImplantType.values()[i/3]).get(j)));
-                }
-                i++;
-            }
-        }
+//
+//        PlayerEntity player = getPlayerInventory().player;
+//
+//        Map<ImplantType,List<Implant>> map = new HashMap<>();
+//        player.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> Arrays.stream(ImplantType.values()).forEach(type -> map.put(type,cap.getImplants(type))));
+//
+//        for (int i = 0;i < getImplantInventory().getContainerSize();){
+//            for (int j = 0;j<3;j++){
+//                if (map.get(ImplantType.values()[i/3]).size()>j){
+//                    getImplantInventory().setItem(i,new ItemStack(map.get(ImplantType.values()[i/3]).get(j)));
+//                }
+//                i++;
+//            }
+//        }
     }
 
 

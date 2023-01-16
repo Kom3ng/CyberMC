@@ -2,8 +2,9 @@ package org.abstruck.mc.cybermc.common.capability;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import org.abstruck.mc.cybermc.common.capability.player.ICyberPlayerDataCapability;
 
 public class ModCapability {
-    @CapabilityInject(ICyberMcCapability.class)
-    public static Capability<ICyberMcCapability> CAP;
+    @CapabilityInject(ICyberPlayerDataCapability.class)
+    public static Capability<ICyberPlayerDataCapability> CYBER_PLAYER_DATA_CAP;
 }

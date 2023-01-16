@@ -1,6 +1,8 @@
 package org.abstruck.mc.cybermc.common.item.implant;
 
 import net.minecraft.item.Item;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.util.INBTSerializable;
 import org.abstruck.mc.cybermc.init.ItemInit;
 import org.abstruck.mc.cybermc.common.item.itemgroup.ModGroup;
 import org.jetbrains.annotations.Nullable;
