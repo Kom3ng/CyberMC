@@ -15,6 +15,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.abstruck.mc.cybermc.Utils;
+import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.capability.item.ImplantCapabilityProvider;
 import org.abstruck.mc.cybermc.common.capability.player.CyberPlayerDataProvider;
 import org.abstruck.mc.cybermc.common.capability.player.ICyberPlayerDataCapability;
@@ -82,9 +83,9 @@ public class CapabilityHandler {
 
         OperatingTableContainer operatingTableContainer = (OperatingTableContainer) event.getContainer();
 
-        Map<ImplantType, List<Implant>> oldImplantTypeMap = new HashMap<>();
-        event.getPlayer().getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> oldImplantTypeMap.putAll(cap.getTypeImplantMap()));
+        Map<ImplantType, List<ImplantItemStack>> oldImplantTypeMap = new HashMap<>();
+        event.getPlayer().getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> oldImplantTypeMap.putAll(cap.getOldMap()));
 
-        MinecraftForge.EVENT_BUS.post(new ImplantChangeEvent(event.getPlayer(), operatingTableContainer.getTypeImplantMap(),oldImplantTypeMap));
+        MinecraftForge.EVENT_BUS.post(new ImplantChangeEvent(event.getPlayer(), operatingTableContainer.getImplantInventory().getTypeImplantItemStack(),oldImplantTypeMap));
     }
 }

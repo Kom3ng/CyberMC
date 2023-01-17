@@ -7,15 +7,20 @@ import org.abstruck.mc.cybermc.common.item.implant.IActive;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 @Mod.EventBusSubscriber
 public class ActivateImplantHandler {
     @SubscribeEvent
     public static void onActivateImplant(@NotNull ActivateImplantEvent event){
-        Implant implant = event.getImplant();
+        Implant implant = event.getImplant().getImplant();
+        if (implant == null){
+            return;
+        }
         if (event.getPlayer().getCooldowns().isOnCooldown(implant) || !(implant instanceof IActive)){
             return;
         }
-        event.getPlayer().getCooldowns().addCooldown(implant, ((IActive) implant).getCoolDownTime());
+        event.getPlayer().getCooldowns().addCooldown(Objects.requireNonNull(event.getImplant().getImplant()), ((IActive) implant).getCoolDownTime());
         ((IActive) implant).onActivate(event);
     }
 }

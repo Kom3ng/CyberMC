@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.abstruck.mc.cybermc.Utils;
+import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class ActiveImplantGui extends AbstractGui {
     private final Minecraft minecraft;
     private MatrixStack matrixStack;
     private final ResourceLocation HUD = new ResourceLocation(Utils.MOD_ID,"textures/gui/active_implant_hud.png");
-    public List<Implant> activeImplantList;
+    public List<ImplantItemStack> activeImplantList;
     public int currentIndexImplant;
 
     public ActiveImplantGui(MatrixStack matrixStack){
@@ -36,13 +37,14 @@ public class ActiveImplantGui extends AbstractGui {
         this.matrixStack = matrixStack;
     }
 
-    public void render(@NotNull List<Implant> activeImplantList, int currentIndexImplant){
+    public void render(@NotNull List<ImplantItemStack> activeImplantList, int currentIndexImplant){
         this.activeImplantList = activeImplantList;
         this.currentIndexImplant = currentIndexImplant;
         this.minecraft.getTextureManager().bind(HUD);
         blit(matrixStack,width/2-9,height/2+9,0,0,18,18,18,18);
         // Render item using matrixStack
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        itemRenderer.renderGuiItem(new ItemStack(activeImplantList.get(currentIndexImplant)),width/2,height/2);
+        itemRenderer.renderGuiItem(activeImplantList.get(currentIndexImplant).getItemStack(),width/2,height/2);
+        System.out.println("rending");
     }
 }

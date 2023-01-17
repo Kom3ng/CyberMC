@@ -5,6 +5,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.abstruck.mc.cybermc.Utils;
+import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.abstruck.mc.cybermc.common.event.ProficiencyUpEvent;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantProficiencyLevel;
 import org.jetbrains.annotations.NotNull;
@@ -20,5 +21,7 @@ public class ProficiencyHandler {
 //                break;
 //            }
 //        }
+        event.getItemStack().getItemStack().getCapability(ModCapability.IMPLANT_CAP).ifPresent(cap -> {
+        });
     }
 }

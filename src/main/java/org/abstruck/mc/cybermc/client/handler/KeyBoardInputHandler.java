@@ -11,6 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.abstruck.mc.cybermc.Utils;
 import org.abstruck.mc.cybermc.client.profile.PlayerProfile;
+import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.network.ActivateImplantPack;
 import org.abstruck.mc.cybermc.network.NetWorking;
@@ -41,7 +42,6 @@ public class KeyBoardInputHandler {
         if (!SHOW_IMPLANTS_HUD.consumeClick() || Minecraft.getInstance().player == null){
             return;
         }
-        PlayerProfile.getInstance().updateActiveImplants();
 
         if (PlayerProfile.getInstance().getActiveImplants().isEmpty()){
             return;
@@ -54,7 +54,7 @@ public class KeyBoardInputHandler {
         PlayerProfile.getInstance().switchHudState();
     }
 
-    private static void onCloseHud(@NotNull List<Implant> activeImplants, int currentImplantIndex){
+    private static void onCloseHud(@NotNull List<ImplantItemStack> activeImplants, int currentImplantIndex){
         PlayerProfile.getInstance().setCurrentActiveImplantIndex(0);
         NetWorking.INSTANCE.sendToServer(new ActivateImplantPack(Minecraft.getInstance().player,activeImplants.get(currentImplantIndex)));
     }

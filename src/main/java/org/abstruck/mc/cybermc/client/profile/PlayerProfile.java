@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.network.ClientUpdateActiveImplantListPack;
 import org.abstruck.mc.cybermc.network.NetWorking;
@@ -14,7 +15,7 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class PlayerProfile {
     ClientPlayerEntity player = Minecraft.getInstance().player;
-    List<Implant> activeImplants = new ArrayList<>();
+    List<ImplantItemStack> activeImplants = new ArrayList<>();
     boolean hudState = false;
     int currentActiveImplantIndex = 0;
 
@@ -38,7 +39,7 @@ public class PlayerProfile {
         return currentActiveImplantIndex;
     }
 
-    public List<Implant> getActiveImplants() {
+    public List<ImplantItemStack> getActiveImplants() {
         return activeImplants;
     }
 
@@ -52,11 +53,11 @@ public class PlayerProfile {
         }
     }
 
-    public void updateActiveImplants() {
-        NetWorking.INSTANCE.sendToServer(new ClientUpdateActiveImplantListPack(Minecraft.getInstance().player));
-    }
+//    public void updateActiveImplants() {
+//        NetWorking.INSTANCE.sendToServer(new ClientUpdateActiveImplantListPack(Minecraft.getInstance().player));
+//    }
 
-    public void setActiveImplants(List<Implant> implants) {
+    public void setActiveImplants(List<ImplantItemStack> implants) {
         this.activeImplants = implants;
     }
 

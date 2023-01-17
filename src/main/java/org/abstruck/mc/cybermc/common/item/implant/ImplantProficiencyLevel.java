@@ -1,5 +1,9 @@
 package org.abstruck.mc.cybermc.common.item.implant;
 
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.util.INBTSerializable;
+import org.jetbrains.annotations.NotNull;
+
 public enum ImplantProficiencyLevel {
     RUSTY(0, "rusty"),NORMAL(100, "normal"),SKILLED(500, "skilled"),EXPERT(3000, "expert");
 

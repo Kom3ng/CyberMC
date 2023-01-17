@@ -1,26 +1,21 @@
 package org.abstruck.mc.cybermc.common.capability.player;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
-import org.abstruck.mc.cybermc.common.Data.NbtData;
+import org.abstruck.mc.cybermc.common.Data.SerializableNbtData;
 import org.abstruck.mc.cybermc.common.Data.serializables.NbtInteger;
 import org.abstruck.mc.cybermc.common.inventory.ImplantInventory;
-import org.abstruck.mc.cybermc.common.item.implant.IActive;
-import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
-import org.abstruck.mc.cybermc.common.utils.ImplantUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CyberPlayerDataCapability implements ICyberPlayerDataCapability {
-//    Map<ImplantType,List<ImplantItemStack>> typeImplantMap = new HashMap<>();
+    Map<ImplantType,List<ImplantItemStack>> typeImplantMap = new HashMap<>();
 //    List<ItemStack> activeImplants = new ArrayList<>();
-    NbtData<ImplantInventory> inventory = new NbtData<>("implant_inventory",new ImplantInventory());
-    NbtData<NbtInteger> san = new NbtData<>("san",new NbtInteger());
-    NbtData<NbtInteger> maxSan = new NbtData<>("max_san",new NbtInteger(25500));
+    SerializableNbtData<ImplantInventory> inventory = new SerializableNbtData<>("implant_inventory",new ImplantInventory());
+    SerializableNbtData<NbtInteger> san = new SerializableNbtData<>("san",new NbtInteger());
+    SerializableNbtData<NbtInteger> maxSan = new SerializableNbtData<>("max_san",new NbtInteger(25500));
 
 
     /**
@@ -94,12 +89,22 @@ public class CyberPlayerDataCapability implements ICyberPlayerDataCapability {
 
     @Override
     public ImplantInventory getImplantInventory() {
-        return null;
+        return this.inventory.getValue();
     }
 
     @Override
     public void setImplantInventory(ImplantInventory implantInventory) {
         this.inventory.setValue(implantInventory);
+    }
+
+    @Override
+    public void updateOldMap() {
+        this.typeImplantMap = getTypeImplantMap();
+    }
+
+    @Override
+    public Map<ImplantType, List<ImplantItemStack>> getOldMap() {
+        return this.typeImplantMap;
     }
 
     @Override
@@ -140,7 +145,7 @@ public class CyberPlayerDataCapability implements ICyberPlayerDataCapability {
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
+    public void deserializeNBT(@NotNull CompoundNBT nbt) {
 //        for (ImplantType type:ImplantType.values()){
 //            if (!nbt.contains(type.getName())){
 //                continue;
@@ -159,9 +164,11 @@ public class CyberPlayerDataCapability implements ICyberPlayerDataCapability {
 //            typeImplantMap.put(type,implants);
 //        }
 
-        this.inventory.getValue().deserializeNBT(nbt);
+        this.inventory.getValue().deserializeNBT(nbt.getCompound(inventory.getKey()));
 
         this.san.getValue().setValue(nbt.getInt(san.getKey()));
         this.maxSan.getValue().setValue(nbt.getInt(maxSan.getKey()));
+
+        updateOldMap();
     }
 }

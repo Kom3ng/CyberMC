@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 
 public class ImplantInventory extends Inventory implements INBTSerializable<CompoundNBT> {
     public final int SLOT_PER_TYPE = 3;
+    public final String ITEM_STACK_KEY = "item_stack_nbt";
+    public final String IMPLANT_NAME_KEY = "implant_name";
 
     public ImplantInventory(){
         //这里的3是只每种type的implant可以放几个
@@ -52,8 +54,9 @@ public class ImplantInventory extends Inventory implements INBTSerializable<Comp
 
         for (int index = 0; index< this.getContainerSize();index++){
             if (this.getItem(index).getItem() instanceof Implant){
-                nbt.put(String.valueOf(index),this.getItem(index).serializeNBT());
-                nbt.putString(String.valueOf(index),((Implant) this.getItem(index).getItem()).getName());
+                nbt.put(String.valueOf(index), new ImplantItemStack(this.getItem(index)).serializeNBT());
+//                nbt.put(String.valueOf(index)+ITEM_STACK_KEY,this.getItem(index).serializeNBT());
+//                nbt.putString(String.valueOf(index)+IMPLANT_NAME_KEY,((Implant) this.getItem(index).getItem()).getName());
             }
         }
         return nbt;
@@ -62,8 +65,13 @@ public class ImplantInventory extends Inventory implements INBTSerializable<Comp
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
         for (int index = 0; index<this.getContainerSize();index++){
+//            if (!nbt.getCompound(String.valueOf(index)+ITEM_STACK_KEY).isEmpty()){
+//                this.setItem(index,new ItemStack(Implant.factory(nbt.getString(String.valueOf(index)+IMPLANT_NAME_KEY)),1,nbt.getCompound(String.valueOf(index)+ITEM_STACK_KEY)));
+//            }
             if (!nbt.getCompound(String.valueOf(index)).isEmpty()){
-                this.setItem(index,new ItemStack(Implant.factory(nbt.getString(String.valueOf(index))),1,nbt.getCompound(String.valueOf(index))));
+                ImplantItemStack implantItemStack = new ImplantItemStack();
+                implantItemStack.deserializeNBT(nbt.getCompound(String.valueOf(index)));
+                this.setItem(index, implantItemStack.getItemStack());
             }
         }
     }

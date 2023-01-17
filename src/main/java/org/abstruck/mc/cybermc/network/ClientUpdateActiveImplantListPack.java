@@ -40,7 +40,7 @@ public class ClientUpdateActiveImplantListPack {
     @Contract("_ -> new")
     public static @NotNull ClientUpdateActiveImplantListPack decode(@NotNull PacketBuffer packetBuffer){
         if (packetBuffer.readBoolean()){
-            return new ClientUpdateActiveImplantListPack(ImplantUtil.readListImplantItemStack(Objects.requireNonNull(packetBuffer.readNbt()),KEY));
+            return new ClientUpdateActiveImplantListPack(ImplantUtil.readListImplantItemStack(Objects.requireNonNull(packetBuffer.readAnySizeNbt()),KEY));
         }
         return new ClientUpdateActiveImplantListPack(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(packetBuffer.readUUID()));
     }
@@ -48,7 +48,7 @@ public class ClientUpdateActiveImplantListPack {
     public void encode(@NotNull PacketBuffer packetBuffer){
         packetBuffer.writeBoolean(isCreateSideRemote);
         if (isCreateSideRemote){
-            packetBuffer.writeUtf(translateImplantListToString(activeImplants));
+            packetBuffer.writeNbt(ImplantUtil.writeListImplantItemStack(activeImplants,KEY));
         }else {
             packetBuffer.writeUUID(player.getUUID());
         }
@@ -58,14 +58,16 @@ public class ClientUpdateActiveImplantListPack {
         ctx.get().enqueueWork(() -> {
             if (this.isCreateSideRemote){
                 PlayerProfile.getInstance().setActiveImplants(this.activeImplants);
+                System.out.println("client got pack");
             }else {
                 ServerPlayerEntity serverPlayer = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(this.player.getUUID());
                 if (serverPlayer == null ){
                     return;
                 }
-                List<ImplantItemStack> implants = new ArrayList<>();
-                serverPlayer.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> implants.addAll(cap.getAllImplants().stream().filter(implant -> implant instanceof IActive).collect(Collectors.toList())));
-                NetWorking.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverPlayer) , new ClientUpdateActiveImplantListPack(implants));
+                List<ImplantItemStack> implantItemStacks = new ArrayList<>();
+                serverPlayer.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> implantItemStacks.addAll(cap.getAllImplants().stream().filter(implantItemStack -> implantItemStack.getImplant() instanceof IActive).collect(Collectors.toList())));
+                NetWorking.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverPlayer) , new ClientUpdateActiveImplantListPack(implantItemStacks));
+                System.out.println("server sent pack");
             }
         });
         ctx.get().setPacketHandled(true);

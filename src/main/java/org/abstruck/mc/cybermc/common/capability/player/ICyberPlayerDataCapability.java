@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.inventory.ImplantInventory;
-import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 
 import java.util.List;
@@ -28,4 +27,6 @@ public interface ICyberPlayerDataCapability extends INBTSerializable<CompoundNBT
 
     ImplantInventory getImplantInventory();
     void setImplantInventory(ImplantInventory implantInventory);
+    void updateOldMap();
+    Map<ImplantType,List<ImplantItemStack>> getOldMap();
 }

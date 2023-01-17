@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ImplantItemStack implements INBTSerializable<CompoundNBT> {
-    private final NbtData<ItemStack> itemStack = new NbtData<>("item_stack",new ItemStack(Items.AIR));
+    private final SerializableNbtData<ItemStack> itemStack = new SerializableNbtData<>("item_stack",new ItemStack(Items.AIR));
     private final String implantKey = "implant_key";
 
     public ImplantItemStack(Implant implant){

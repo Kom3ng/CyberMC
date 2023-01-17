@@ -6,6 +6,9 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import org.abstruck.mc.cybermc.common.capability.item.IImplantCapability;
+import org.abstruck.mc.cybermc.common.capability.item.ImplantCapability;
+import org.abstruck.mc.cybermc.common.capability.item.ImplantCapabilityProvider;
 import org.abstruck.mc.cybermc.common.capability.player.CyberPlayerDataCapability;
 import org.abstruck.mc.cybermc.common.capability.player.ICyberPlayerDataCapability;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +37,27 @@ public class CapabilityInit {
                     instance.deserializeNBT((CompoundNBT) nbt);
                 }
             }, CyberPlayerDataCapability::new);
+        });
+
+        event.enqueueWork(() -> {
+           CapabilityManager.INSTANCE.register(IImplantCapability.class, new Capability.IStorage<IImplantCapability>() {
+               @Nullable
+               @Override
+               public INBT writeNBT(Capability<IImplantCapability> capability, IImplantCapability instance, Direction side) {
+                   if (instance == null){
+                       return null;
+                   }
+                   return instance.serializeNBT();
+               }
+
+               @Override
+               public void readNBT(Capability<IImplantCapability> capability, IImplantCapability instance, Direction side, INBT nbt) {
+                    if (instance == null || !(nbt instanceof CompoundNBT)){
+                        return;
+                    }
+                    instance.deserializeNBT((CompoundNBT) nbt);
+               }
+           }, ImplantCapability::new);
         });
     }
 }

@@ -2,6 +2,7 @@ package org.abstruck.mc.cybermc.common.event;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 import org.abstruck.mc.cybermc.common.utils.ImplantUtil;
@@ -13,23 +14,23 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ImplantChangeEvent extends PlayerEvent {
-    Map<ImplantType, List<Implant>> oldImplantTypeMap;
-    Map<ImplantType, List<Implant>> implantTypeListMap;
-    public ImplantChangeEvent(PlayerEntity player, Map<ImplantType, List<Implant>> implantTypeListMap, Map<ImplantType, List<Implant>> oldImplantTypeMap) {
+    Map<ImplantType, List<ImplantItemStack>> oldImplantTypeMap;
+    Map<ImplantType, List<ImplantItemStack>> implantTypeListMap;
+    public ImplantChangeEvent(PlayerEntity player, Map<ImplantType, List<ImplantItemStack>> implantTypeListMap, Map<ImplantType, List<ImplantItemStack>> oldImplantTypeMap) {
         super(player);
         this.implantTypeListMap = implantTypeListMap;
         this.oldImplantTypeMap = oldImplantTypeMap;
     }
 
-    public Map<ImplantType, List<Implant>> getImplantTypeListMap() {
+    public Map<ImplantType, List<ImplantItemStack>> getImplantTypeListMap() {
         return implantTypeListMap;
     }
 
-    public List<Implant> getAllImplants() {
+    public List<ImplantItemStack> getAllImplants() {
         return ImplantUtil.readAllImplants(implantTypeListMap);
     }
 
-    public List<Implant> getAllOldImplants(){
+    public List<ImplantItemStack> getAllOldImplants(){
         return ImplantUtil.readAllImplants(oldImplantTypeMap);
     }
 }

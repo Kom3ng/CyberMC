@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class OperatingTableContainer extends Container {
-    IInventory implantInventory;
+    ImplantInventory implantInventory;
     PlayerInventory playerInventory;
     public OperatingTableContainer(int id, @NotNull PlayerInventory playerInventory, BlockPos blockPos) {
         super(ContainerTypeInit.OPERATING_TABLE_CONTAINER_TYPE.get(), id);
@@ -95,7 +95,7 @@ public class OperatingTableContainer extends Container {
 
         return result;
     }
-    public IInventory getImplantInventory() {
+    public ImplantInventory getImplantInventory() {
         this.playerInventory.player.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> implantInventory = cap.getImplantInventory());
         return implantInventory;
     }
