@@ -4,14 +4,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.abstruck.mc.cybermc.Utils;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
-import org.abstruck.mc.cybermc.common.item.implant.Implant;
-import org.apache.logging.log4j.LogManager;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

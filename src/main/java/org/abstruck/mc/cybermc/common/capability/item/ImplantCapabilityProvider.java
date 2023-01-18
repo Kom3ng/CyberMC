@@ -6,6 +6,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +15,7 @@ public class ImplantCapabilityProvider implements ICapabilityProvider, INBTSeria
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return null;
+        return cap == ModCapability.IMPLANT_CAP ? LazyOptional.of(this::get).cast() : LazyOptional.empty();
     }
 
     @Override

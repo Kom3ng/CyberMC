@@ -1,5 +1,7 @@
 package org.abstruck.mc.cybermc;
 
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,8 +29,6 @@ public class CyberMC {
 
     public CyberMC() {
         init(FMLJavaModLoadingContext.get().getModEventBus());
-
-        Class<KeyBoardInputHandler> keyBoardInputHandlerClass = KeyBoardInputHandler.class;
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
@@ -59,7 +59,6 @@ public class CyberMC {
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-
     }
 
     private void processIMC(final InterModProcessEvent event) {
@@ -68,7 +67,6 @@ public class CyberMC {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-
     }
 
 }

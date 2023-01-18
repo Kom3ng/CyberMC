@@ -16,6 +16,7 @@ import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OperatingTableContainer extends Container {
     ImplantInventory implantInventory;
@@ -24,8 +25,6 @@ public class OperatingTableContainer extends Container {
         super(ContainerTypeInit.OPERATING_TABLE_CONTAINER_TYPE.get(), id);
         this.playerInventory = playerInventory;
         this.implantInventory = new ImplantInventory();
-
-        initImplantInventory();
 
         layoutPlayerInventory(getPlayerInventory());
         layoutImplantInventory(getImplantInventory());
@@ -100,40 +99,6 @@ public class OperatingTableContainer extends Container {
         return implantInventory;
     }
 
-    public void initImplantInventory(){
-//        PlayerEntity player = getPlayerInventory().player;
-//        for (int typeIndex = 0, index = 0;index<getImplantInventory().getContainerSize() && typeIndex<ImplantType.values().length; index +=3,typeIndex++){
-//            int finalTypeIndex = typeIndex;
-//            List<Implant> implants = new ArrayList<>();
-//            player.getCapability(ModCapability.CAP).ifPresent(cap -> implants.addAll(cap.getImplants(ImplantType.values()[finalTypeIndex])));
-//
-//            if (implants.isEmpty()){
-//                continue;
-//            }
-//            for (int i = 0;i<3;i++){
-//                if (implants.size()<=i){
-//                    break;
-//                }
-//                getImplantInventory().setItem(index,new ItemStack(implants.get(i)));
-//            }
-//        }
-//
-//        PlayerEntity player = getPlayerInventory().player;
-//
-//        Map<ImplantType,List<Implant>> map = new HashMap<>();
-//        player.getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> Arrays.stream(ImplantType.values()).forEach(type -> map.put(type,cap.getImplants(type))));
-//
-//        for (int i = 0;i < getImplantInventory().getContainerSize();){
-//            for (int j = 0;j<3;j++){
-//                if (map.get(ImplantType.values()[i/3]).size()>j){
-//                    getImplantInventory().setItem(i,new ItemStack(map.get(ImplantType.values()[i/3]).get(j)));
-//                }
-//                i++;
-//            }
-//        }
-    }
-
-
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull PlayerEntity pPlayer, int pIndex) {
         return ItemStack.EMPTY;
@@ -141,5 +106,14 @@ public class OperatingTableContainer extends Container {
 
     public PlayerInventory getPlayerInventory() {
         return playerInventory;
+    }
+
+    public void switchTo(ImplantType type){
+        this.slots.clear();
+        int range = 3;
+        int startIndex = Arrays.stream(ImplantType.values()).collect(Collectors.toList()).indexOf(type)*range;
+        for (int i = 0;i<range;i++){
+            addSlot(new Slot(getImplantInventory(),startIndex+i,61+18*i,27));
+        }
     }
 }

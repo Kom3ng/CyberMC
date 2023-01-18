@@ -1,7 +1,7 @@
 package org.abstruck.mc.cybermc.common.capability.player;
 
 import net.minecraft.nbt.CompoundNBT;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.Data.SerializableNbtData;
 import org.abstruck.mc.cybermc.common.Data.serializables.NbtInteger;
 import org.abstruck.mc.cybermc.common.inventory.ImplantInventory;
@@ -45,10 +45,10 @@ public class CyberPlayerDataCapability implements ICyberPlayerDataCapability {
 
 //    @Override
 //    public void addImplant(@NotNull ImplantItemStack implant) {
-//        if (implant.getImplant() == null){
+//        if (implant.getImplantItemStack() == null){
 //            return;
 //        }
-//        ImplantType type = implant.getImplant().getType();
+//        ImplantType type = implant.getImplantItemStack().getType();
 //        if (!typeImplantMap.containsKey(type) || typeImplantMap.get(type) == null){
 //            typeImplantMap.put(type, Collections.singletonList(implant));
 //            return;

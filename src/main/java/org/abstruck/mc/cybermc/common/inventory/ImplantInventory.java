@@ -1,11 +1,10 @@
 package org.abstruck.mc.cybermc.common.inventory;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 
@@ -55,8 +54,6 @@ public class ImplantInventory extends Inventory implements INBTSerializable<Comp
         for (int index = 0; index< this.getContainerSize();index++){
             if (this.getItem(index).getItem() instanceof Implant){
                 nbt.put(String.valueOf(index), new ImplantItemStack(this.getItem(index)).serializeNBT());
-//                nbt.put(String.valueOf(index)+ITEM_STACK_KEY,this.getItem(index).serializeNBT());
-//                nbt.putString(String.valueOf(index)+IMPLANT_NAME_KEY,((Implant) this.getItem(index).getItem()).getName());
             }
         }
         return nbt;
@@ -65,9 +62,6 @@ public class ImplantInventory extends Inventory implements INBTSerializable<Comp
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
         for (int index = 0; index<this.getContainerSize();index++){
-//            if (!nbt.getCompound(String.valueOf(index)+ITEM_STACK_KEY).isEmpty()){
-//                this.setItem(index,new ItemStack(Implant.factory(nbt.getString(String.valueOf(index)+IMPLANT_NAME_KEY)),1,nbt.getCompound(String.valueOf(index)+ITEM_STACK_KEY)));
-//            }
             if (!nbt.getCompound(String.valueOf(index)).isEmpty()){
                 ImplantItemStack implantItemStack = new ImplantItemStack();
                 implantItemStack.deserializeNBT(nbt.getCompound(String.valueOf(index)));

@@ -3,8 +3,7 @@ package org.abstruck.mc.cybermc.common.event;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
-import org.abstruck.mc.cybermc.common.item.implant.Implant;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 
 @Cancelable
 public class ActivateImplantEvent extends PlayerEvent {
@@ -14,7 +13,7 @@ public class ActivateImplantEvent extends PlayerEvent {
         this.implant = implant;
     }
 
-    public ImplantItemStack getImplant() {
+    public ImplantItemStack getImplantItemStack() {
         return implant;
     }
 }

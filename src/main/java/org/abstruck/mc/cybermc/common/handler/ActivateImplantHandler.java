@@ -13,14 +13,14 @@ import java.util.Objects;
 public class ActivateImplantHandler {
     @SubscribeEvent
     public static void onActivateImplant(@NotNull ActivateImplantEvent event){
-        Implant implant = event.getImplant().getImplant();
+        Implant implant = event.getImplantItemStack().getImplant();
         if (implant == null){
             return;
         }
         if (event.getPlayer().getCooldowns().isOnCooldown(implant) || !(implant instanceof IActive)){
             return;
         }
-        event.getPlayer().getCooldowns().addCooldown(Objects.requireNonNull(event.getImplant().getImplant()), ((IActive) implant).getCoolDownTime());
+        event.getPlayer().getCooldowns().addCooldown(Objects.requireNonNull(event.getImplantItemStack().getImplant()), ((IActive) implant).getCoolDownTime());
         ((IActive) implant).onActivate(event);
     }
 }

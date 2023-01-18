@@ -26,7 +26,7 @@ public class Sandevistan extends BackboneImplant implements IActive {
     public void onActivate(@NotNull ActivateImplantEvent event) {
         consumeSan(event.getPlayer());
 //        proficiency++;
-        MinecraftForge.EVENT_BUS.post(new ProficiencyUpEvent(event.getImplant()));
+        MinecraftForge.EVENT_BUS.post(new ProficiencyUpEvent(event.getImplantItemStack()));
     }
 
     @Override

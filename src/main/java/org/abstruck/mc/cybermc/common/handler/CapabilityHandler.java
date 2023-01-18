@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.abstruck.mc.cybermc.Utils;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.capability.item.ImplantCapabilityProvider;
 import org.abstruck.mc.cybermc.common.capability.player.CyberPlayerDataProvider;
 import org.abstruck.mc.cybermc.common.capability.player.ICyberPlayerDataCapability;

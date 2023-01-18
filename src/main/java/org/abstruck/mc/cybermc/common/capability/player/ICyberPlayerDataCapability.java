@@ -2,7 +2,7 @@ package org.abstruck.mc.cybermc.common.capability.player;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.inventory.ImplantInventory;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 

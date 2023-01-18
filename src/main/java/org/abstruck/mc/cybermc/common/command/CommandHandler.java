@@ -31,6 +31,7 @@ public class CommandHandler {
                                 .executes(ResetCommand.instance)
                 )
         );
+
         dispatcher.register(Commands.literal("cb").redirect(debug));
     }
 }

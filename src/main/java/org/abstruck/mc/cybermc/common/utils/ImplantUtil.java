@@ -1,9 +1,7 @@
 package org.abstruck.mc.cybermc.common.utils;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.util.INBTSerializable;
-import org.abstruck.mc.cybermc.common.Data.ImplantItemStack;
-import org.abstruck.mc.cybermc.common.item.implant.Implant;
+import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +30,7 @@ public class ImplantUtil {
         return result;
     }
 
+    @Deprecated
     public static @NotNull List<ImplantItemStack> readListImplantItemStack(@NotNull CompoundNBT nbt, String key){
         List<ImplantItemStack> result = new ArrayList<>();
         int index = 0;
@@ -43,10 +42,12 @@ public class ImplantUtil {
         return result;
     }
 
+
+    @Deprecated
     public static @NotNull CompoundNBT writeListImplantItemStack(@NotNull List<ImplantItemStack> implantItemStacks, String key){
         CompoundNBT nbt = new CompoundNBT();
         for (int index = 0;index< implantItemStacks.size();index++){
-            nbt.put(key+index,implantItemStacks.get(index).serializeNBT());
+           nbt.put(key+index,implantItemStacks.get(index).serializeNBT());
         }
         return nbt;
     }
