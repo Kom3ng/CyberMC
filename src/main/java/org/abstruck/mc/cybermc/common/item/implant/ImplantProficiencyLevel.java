@@ -2,10 +2,11 @@ package org.abstruck.mc.cybermc.common.item.implant;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
+import org.abstruck.mc.cybermc.Config;
 import org.jetbrains.annotations.NotNull;
 
 public enum ImplantProficiencyLevel {
-    RUSTY(0, "rusty"),NORMAL(100, "normal"),SKILLED(500, "skilled"),EXPERT(3000, "expert");
+    RUSTY(Config.RUSTY_PROFICIENCY.get(), "rusty"),NORMAL(Config.NORMAL_PROFICIENCY.get(), "normal"),SKILLED(Config.SKILLED_PROFICIENCY.get(), "skilled"),EXPERT(Config.EXPERT_PROFICIENCY.get(), "expert");
 
 
     final int value;

@@ -8,7 +8,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.abstruck.mc.cybermc.Utils;
 import org.abstruck.mc.cybermc.common.container.OperatingTableContainer;
-import org.abstruck.mc.cybermc.common.container.screen.button.ImplantButton;
+import org.abstruck.mc.cybermc.common.container.screen.widget.button.ImplantButton;
 import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,9 +16,6 @@ public class OperatingTableContainerScreen extends ContainerScreen<OperatingTabl
     private final ResourceLocation OPERATING_TABLE_RECOURSE = new ResourceLocation(Utils.MOD_ID,"textures/gui/operating_table_container.png");
     private static final int textureWidth = 175;
     private static final int textureHeight = 161;
-
-    int i = (this.width - this.imageWidth) / 2;
-    int j = (this.height - this.imageHeight) / 2;
 
     private ImplantButton brainImplantsButton;
     private ImplantButton heartImplantsButton;
@@ -36,6 +33,11 @@ public class OperatingTableContainerScreen extends ContainerScreen<OperatingTabl
 
     @Override
     protected void init() {
+        this.width = textureWidth;
+        this.height = textureHeight;
+
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
         brainImplantsButton = new ImplantButton(this,ImplantType.BRAIN,i+128,j+8,18,18,new TranslationTextComponent(""),new ImplantButton.Press());
         heartImplantsButton = new ImplantButton(this,ImplantType.HEART,i+12,j+38,18,18,new TranslationTextComponent(""),new ImplantButton.Press());
         visionSystemImplantsButton = new ImplantButton(this,ImplantType.VISION_SYSTEM,i+32,j+8,18,18,new TranslationTextComponent(""),new ImplantButton.Press());
@@ -54,6 +56,8 @@ public class OperatingTableContainerScreen extends ContainerScreen<OperatingTabl
         this.renderBackground(matrixStack);
         assert this.minecraft != null;
         this.minecraft.getTextureManager().bind(OPERATING_TABLE_RECOURSE);
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
         blit(matrixStack, i, j, 0, 0, imageWidth, imageHeight, textureWidth, textureHeight);
     }
 
