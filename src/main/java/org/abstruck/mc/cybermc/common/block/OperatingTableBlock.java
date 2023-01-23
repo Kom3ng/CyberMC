@@ -15,7 +15,10 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.abstruck.mc.cybermc.common.block.tile.OperatingTableTileEntity;
+import org.abstruck.mc.cybermc.network.NetWorking;
+import org.abstruck.mc.cybermc.network.OpenGuiPack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,10 +43,12 @@ public class OperatingTableBlock extends BedBlock {
             return ActionResultType.PASS;
         }
 
-        NetworkHooks.openGui((ServerPlayerEntity) player, operatingTableTileEntity, packetBuffer->{
-            //把方块实体的坐标放进packetBuffer里
-            packetBuffer.writeBlockPos(operatingTableTileEntity.getBlockPos());
-        });
+        NetWorking.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new OpenGuiPack(blockPos));
+
+//        NetworkHooks.openGui((ServerPlayerEntity) player, operatingTableTileEntity, packetBuffer->{
+//            //把方块实体的坐标放进packetBuffer里
+//            packetBuffer.writeBlockPos(operatingTableTileEntity.getBlockPos());
+//        });
 
         return ActionResultType.SUCCESS;
     }

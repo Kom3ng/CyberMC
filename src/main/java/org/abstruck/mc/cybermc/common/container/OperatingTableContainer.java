@@ -6,6 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.abstruck.mc.cybermc.common.container.slot.ImplantSlot;
@@ -19,15 +20,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class OperatingTableContainer extends Container {
+
     ImplantInventory implantInventory;
     PlayerInventory playerInventory;
-    public OperatingTableContainer(int id, @NotNull PlayerInventory playerInventory, BlockPos blockPos) {
+    public OperatingTableContainer(int id, @NotNull PlayerInventory playerInventory, PacketBuffer buffer) {
         super(ContainerTypeInit.OPERATING_TABLE_CONTAINER_TYPE.get(), id);
+
         this.playerInventory = playerInventory;
         this.implantInventory = new ImplantInventory();
 
+        switchTo(ImplantType.valueOf(buffer.readUtf()));
         layoutPlayerInventory(getPlayerInventory());
-        layoutImplantInventory(getImplantInventory());
+//        layoutImplantInventory(getImplantInventory());
     }
 
     private void layoutImplantInventory(@NotNull IInventory inventory){

@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class ClientUpdateActiveImplantListPack {
+public class ClientUpdateActiveImplantListPack extends BasePack{
     private static final String KEY = "key";
     @Deprecated
     PlayerEntity player;

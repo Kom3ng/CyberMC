@@ -24,12 +24,22 @@ public class NetWorking {
         INSTANCE.messageBuilder(ActivateImplantPack.class, nextID())
                 .encoder(ActivateImplantPack::encode)
                 .decoder(ActivateImplantPack::decode)
-                .consumer(ActivateImplantPack::handler)
+                .consumer(ActivateImplantPack::handle)
                 .add();
         INSTANCE.messageBuilder(ClientUpdateActiveImplantListPack.class,nextID())
                 .encoder(ClientUpdateActiveImplantListPack::encode)
                 .decoder(ClientUpdateActiveImplantListPack::decode)
                 .consumer(ClientUpdateActiveImplantListPack::handle)
+                .add();
+        INSTANCE.messageBuilder(OpenGuiPack.class,nextID())
+                .encoder(OpenGuiPack::encode)
+                .decoder(OpenGuiPack::decode)
+                .consumer(OpenGuiPack::handle)
+                .add();
+        INSTANCE.messageBuilder(ImplantContainerCallPack.class,nextID())
+                .encoder(ImplantContainerCallPack::encode)
+                .decoder(ImplantContainerCallPack::decode)
+                .consumer(ImplantContainerCallPack::handle)
                 .add();
     }
 }

@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.abstruck.mc.cybermc.Config;
 import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public class SanHandler {
             return;
         }
         event.getEntity().getCapability(ModCapability.CYBER_PLAYER_DATA_CAP).ifPresent(cap -> {
-            cap.consumeSan((int) event.getAmount()*5);
+            cap.consumeSan((int) event.getAmount()* Config.HURT_SAN_COST_TIME.get());
         });
     }
 }

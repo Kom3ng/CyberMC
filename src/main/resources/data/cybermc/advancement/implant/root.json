@@ -1,0 +1,17 @@
+{
+  "display": {
+    "icon": {
+      "item": "cybermc:operating_table"
+    },
+    "title": "应该不会很痛吧...",
+    "description": "放置一个手术台"
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "cybermc:operating_table"
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class ActivateImplantPack {
+public class ActivateImplantPack extends BasePack {
     PlayerEntity player;
     ImplantItemStack implant;
     public ActivateImplantPack(PlayerEntity player, ImplantItemStack implant){
@@ -37,7 +37,7 @@ public class ActivateImplantPack {
         packetBuffer.writeNbt(implant.serializeNBT());
     }
 
-    public void handler(@NotNull Supplier<NetworkEvent.Context> ctx) {
+    public void handle(@NotNull Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             MinecraftForge.EVENT_BUS.post(new ActivateImplantEvent(player,implant));
         });

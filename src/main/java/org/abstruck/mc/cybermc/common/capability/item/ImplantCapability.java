@@ -8,20 +8,37 @@ import org.abstruck.mc.cybermc.common.item.implant.ImplantProficiencyLevel;
 import org.jetbrains.annotations.NotNull;
 
 public class ImplantCapability implements IImplantCapability{
-    SerializableNbtData<NbtInteger> proficiency = new SerializableNbtData<>("proficiency",new NbtInteger());
-    NbtData<ImplantProficiencyLevel> level = new NbtData<>("proficiency_level",ImplantProficiencyLevel.RUSTY);
+    NbtData<Integer> proficiency = new NbtData<>("proficiency",0);
 
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT result = new CompoundNBT();
-        result.put(proficiency.getKey(),proficiency.serializeNBT());
+        result.putInt(proficiency.getKey(),proficiency.getValue());
         return result;
     }
 
     @Override
     public void deserializeNBT(@NotNull CompoundNBT nbt) {
-        proficiency.deserializeNBT(nbt.getCompound(proficiency.getKey()));
+        proficiency.setValue(nbt.getInt(proficiency.getKey()));
+    }
 
-        level.setValue(ImplantProficiencyLevel.fromProficiency(proficiency.getValue().getValue()));
+    @Override
+    public void addProficiency(int i) {
+        proficiency.setValue(proficiency.getValue() + i);
+    }
+
+    @Override
+    public void addProficiency() {
+        addProficiency(1);
+    }
+
+    @Override
+    public int getProficiency() {
+        return proficiency.getValue();
+    }
+
+    @Override
+    public ImplantProficiencyLevel getProficiencyLevel() {
+        return ImplantProficiencyLevel.fromProficiency(getProficiency());
     }
 }
