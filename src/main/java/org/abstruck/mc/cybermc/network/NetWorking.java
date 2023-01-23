@@ -31,15 +31,15 @@ public class NetWorking {
                 .decoder(ClientUpdateActiveImplantListPack::decode)
                 .consumer(ClientUpdateActiveImplantListPack::handle)
                 .add();
-        INSTANCE.messageBuilder(OpenGuiPack.class,nextID())
-                .encoder(OpenGuiPack::encode)
-                .decoder(OpenGuiPack::decode)
-                .consumer(OpenGuiPack::handle)
-                .add();
-        INSTANCE.messageBuilder(ImplantContainerCallPack.class,nextID())
-                .encoder(ImplantContainerCallPack::encode)
-                .decoder(ImplantContainerCallPack::decode)
-                .consumer(ImplantContainerCallPack::handle)
-                .add();
+//        INSTANCE.messageBuilder(OpenGuiPack.class,nextID())
+//                .encoder(OpenGuiPack::encode)
+//                .decoder(OpenGuiPack::decode)
+//                .consumer(OpenGuiPack::handle)
+//                .add();
+//        INSTANCE.messageBuilder(ImplantContainerCallPack.class,nextID())
+//                .encoder(ImplantContainerCallPack::encode)
+//                .decoder(ImplantContainerCallPack::decode)
+//                .consumer(ImplantContainerCallPack::handle)
+//                .add();
     }
 }

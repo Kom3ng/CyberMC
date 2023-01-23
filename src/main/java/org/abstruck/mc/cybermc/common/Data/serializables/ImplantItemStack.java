@@ -35,7 +35,6 @@ public class ImplantItemStack implements INBTSerializable<CompoundNBT> {
     }
 
 
-    @Deprecated
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = new CompoundNBT();
@@ -54,7 +53,6 @@ public class ImplantItemStack implements INBTSerializable<CompoundNBT> {
         return nbt;
     }
 
-    @Deprecated
     @Override
     public void deserializeNBT(@NotNull CompoundNBT nbt) {
         if (!nbt.contains(implantKey) || !nbt.contains(itemStack.getKey())){

@@ -7,7 +7,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
 import org.abstruck.mc.cybermc.common.capability.ModCapability;
 import org.abstruck.mc.cybermc.common.container.slot.ImplantSlot;
 import org.abstruck.mc.cybermc.init.ContainerTypeInit;
@@ -17,7 +16,6 @@ import org.abstruck.mc.cybermc.common.item.implant.ImplantType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OperatingTableContainer extends Container {
 
@@ -29,33 +27,71 @@ public class OperatingTableContainer extends Container {
         this.playerInventory = playerInventory;
         this.implantInventory = new ImplantInventory();
 
-        switchTo(ImplantType.valueOf(buffer.readUtf()));
+//        switchTo(ImplantType.valueOf(buffer.readUtf()));
         layoutPlayerInventory(getPlayerInventory());
-//        layoutImplantInventory(getImplantInventory());
+        layoutImplantInventory(getImplantInventory());
     }
 
     private void layoutImplantInventory(@NotNull IInventory inventory){
-        int startX = 8;
-        int startY = 10;
-        int dx = 18;
-        int dy = 18;
+        int rectifyX = 14;
+        int rectifyY = 6;
+        int typeIndex = 0;
+        int itemIndex = 0;
+        int dx = 20;
+        int dy = 19;
 
-        for (int index = 0;index<inventory.getContainerSize();index++){
-            addSlot(new ImplantSlot(inventory,index,(index%9)*dx + startX,(index/9)*dy + startY, ImplantType.values()[index/3]));
+        for (int i3 = 0; i3 <2; i3++) {
+            for (int j3 = 0; j3 < 3; j3++) {
+                addSlot(new ImplantSlot(inventory, itemIndex, rectifyX + j3 * dx, rectifyY + i3 * dy, ImplantType.values()[typeIndex]));
+                itemIndex++;
+            }
+            typeIndex++;
         }
+
+        rectifyY = 46;
+
+
+        for (int i2 = 0; i2 <2; i2++){
+            for (int j2 = 0; j2 <3 ; j2++){
+                addSlot(new ImplantSlot(inventory, itemIndex, rectifyX + j2 * dx, rectifyY + i2 * dy, ImplantType.values()[typeIndex]));
+                itemIndex++;
+            }
+            typeIndex++;
+        }
+
+        rectifyX = 183;
+
+        for (int i1 = 0; i1 <2; i1++){
+            for (int j1 = 0; j1 <3 ; j1++){
+                addSlot(new ImplantSlot(inventory, itemIndex, rectifyX + j1 * dx, rectifyY + i1 * dy, ImplantType.values()[typeIndex]));
+                itemIndex++;
+            }
+            typeIndex++;
+        }
+
+        rectifyY = 6;
+
+        for (int i = 0;i<2;i++){
+            for (int j = 0; j<3 ;j++){
+                addSlot(new ImplantSlot(inventory, itemIndex, rectifyX + j*dx, rectifyY + i*dy, ImplantType.values()[typeIndex]));
+                itemIndex++;
+            }
+            typeIndex++;
+        }
+
     }
 
     private void layoutPlayerInventory(IInventory inventory){
         // 创建玩家背包物品栏
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++){
-                this.addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 166 - (4 - row) * 18 - 10));
+                this.addSlot(new Slot(inventory, col + row * 9 + 9,  47 + col * 18,178 - (4 - row) * 18 - 10));
             }
         }
 
         // 工具栏
         for (int col = 0; col < 9; col++) {
-            this.addSlot(new Slot(inventory, col, 8 + col * 18, 142));
+            this.addSlot(new Slot(inventory, col, 47 + col * 18, 178 - 24));
         }
     }
 
@@ -112,12 +148,4 @@ public class OperatingTableContainer extends Container {
         return playerInventory;
     }
 
-    public void switchTo(ImplantType type){
-        this.slots.clear();
-        int range = 3;
-        int startIndex = Arrays.stream(ImplantType.values()).collect(Collectors.toList()).indexOf(type)*range;
-        for (int i = 0;i<range;i++){
-            addSlot(new Slot(getImplantInventory(),startIndex+i,61+18*i,27));
-        }
-    }
 }

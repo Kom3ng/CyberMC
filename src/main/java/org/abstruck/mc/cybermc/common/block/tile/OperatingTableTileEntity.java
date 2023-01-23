@@ -17,20 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class OperatingTableTileEntity extends TileEntity implements INamedContainerProvider {
-    private ImplantType type;
 
     public OperatingTableTileEntity() {
         super(TileEntityInit.OPERATING_TABLE.get());
     }
 
-
-    public void setImplantType(ImplantType type){
-        this.type = type;
-    }
-
-    public ImplantType getImplantType(){
-        return type;
-    }
 
     @Override
     public @NotNull ITextComponent getDisplayName() {
@@ -40,15 +31,6 @@ public class OperatingTableTileEntity extends TileEntity implements INamedContai
     @Nullable
     @Override
     public Container createMenu(int id, @NotNull PlayerInventory inventory, @NotNull PlayerEntity player) {
-        if (getImplantType() == null){
-            return null;
-        }
-
-        PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
-
-        buffer.writeUtf(getImplantType().name());
-        buffer.writeBlockPos(this.getBlockPos());
-
-        return new OperatingTableContainer(id,inventory,buffer);
+        return new OperatingTableContainer(id,inventory,null);
     }
 }

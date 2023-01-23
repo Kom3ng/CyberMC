@@ -1,6 +1,7 @@
 package org.abstruck.mc.cybermc.network;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -25,10 +26,12 @@ public class ActivateImplantPack extends BasePack {
     @Contract("_ -> new")
     public static @Nullable ActivateImplantPack decode(@NotNull PacketBuffer packetBuffer){
         ImplantItemStack implantItemStack = new ImplantItemStack();
-        if (packetBuffer.readNbt() == null){
+        packetBuffer.readAnySizeNbt();
+        if (packetBuffer.readAnySizeNbt() == null){
             return null;
         }
-        implantItemStack.deserializeNBT(Objects.requireNonNull(packetBuffer.readNbt()));
+
+        implantItemStack.deserializeNBT(Objects.requireNonNull(packetBuffer.readAnySizeNbt()));
         return new ActivateImplantPack(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(packetBuffer.readUUID()), implantItemStack);
     }
 

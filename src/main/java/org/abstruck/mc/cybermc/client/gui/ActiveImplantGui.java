@@ -42,6 +42,5 @@ public class ActiveImplantGui extends AbstractGui {
         // Render item using matrixStack
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         itemRenderer.renderGuiItem(activeImplantList.get(currentIndexImplant).getItemStack(),width/2,height/2);
-        System.out.println("rending");
     }
 }

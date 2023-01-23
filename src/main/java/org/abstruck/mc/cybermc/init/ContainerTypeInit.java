@@ -13,6 +13,6 @@ public class ContainerTypeInit {
 
     public static final RegistryObject<ContainerType<OperatingTableContainer>> OPERATING_TABLE_CONTAINER_TYPE = REGISTER.register(
             "operating_table_container",
-            () -> IForgeContainerType.create(((windowId, inv, data) -> new OperatingTableContainer(windowId,inv,data)))
+            () -> IForgeContainerType.create((OperatingTableContainer::new))
     );
 }
