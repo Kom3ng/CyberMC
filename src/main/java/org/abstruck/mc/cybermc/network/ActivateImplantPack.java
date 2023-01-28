@@ -1,6 +1,10 @@
 package org.abstruck.mc.cybermc.network;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.common.MinecraftForge;
@@ -8,11 +12,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.abstruck.mc.cybermc.common.Data.serializables.ImplantItemStack;
 import org.abstruck.mc.cybermc.common.event.ActivateImplantEvent;
+import org.abstruck.mc.cybermc.common.item.implant.Implant;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 public class ActivateImplantPack extends BasePack {
@@ -26,18 +32,40 @@ public class ActivateImplantPack extends BasePack {
     @Contract("_ -> new")
     public static @Nullable ActivateImplantPack decode(@NotNull PacketBuffer packetBuffer){
         ImplantItemStack implantItemStack = new ImplantItemStack();
-        packetBuffer.readAnySizeNbt();
-        if (packetBuffer.readAnySizeNbt() == null){
+
+        CompoundNBT nbt = packetBuffer.readAnySizeNbt();
+
+        if (nbt == null) {
             return null;
         }
+        UUID playerUniqueId = nbt.getUUID("player_uuid");
+        CompoundNBT implantNbt = nbt.getCompound("implant_nbt");
 
-        implantItemStack.deserializeNBT(Objects.requireNonNull(packetBuffer.readAnySizeNbt()));
-        return new ActivateImplantPack(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(packetBuffer.readUUID()), implantItemStack);
+        ServerPlayerEntity serverPlayerEntity = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(playerUniqueId);
+
+//        if (packetBuffer.readAnySizeNbt() == null){
+//            return null;
+//        }
+
+        implantItemStack.deserializeNBT(implantNbt);
+//        try {
+//            implantItemStack.deserializeNBT(JsonToNBT.parseTag(packetBuffer.readUtf()));
+//        } catch (CommandSyntaxException e) {
+//            throw new RuntimeException(e);
+//        }
+        return new ActivateImplantPack(serverPlayerEntity, implantItemStack);
     }
 
     public void encode(@NotNull PacketBuffer packetBuffer){
-        packetBuffer.writeUUID(player.getUUID());
-        packetBuffer.writeNbt(implant.serializeNBT());
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putUUID("player_uuid",player.getUUID());
+        nbt.put("implant_nbt",implant.serializeNBT());
+        packetBuffer.writeNbt(nbt);
+
+//        packetBuffer.writeNbt(implant.serializeNBT());
+//        packetBuffer.writeUtf(player.getStringUUID());
+//        packetBuffer.writeUUID(player.getUUID());
+//        packetBuffer.writeUtf(implant.getImplant().getName());
     }
 
     public void handle(@NotNull Supplier<NetworkEvent.Context> ctx) {

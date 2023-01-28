@@ -10,7 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class Sandevistan extends BackboneImplant implements IActive {
     final String NAME = "Sandevistan";
-//    ImplantProficiencyLevel level;
+
+    //    ImplantProficiencyLevel level;
 //    int proficiency;
     @Override
     public @NotNull String getName() {
@@ -39,23 +40,9 @@ public class Sandevistan extends BackboneImplant implements IActive {
         return 100000000;
     }
 
-//    @Override
-//    public int getProficiency() {
-//        return 0;
-//    }
-
     @Override
     public int getSanForeverConsume() {
-        return 254999;
+        return 254000;
     }
-
-//    @Override
-//    public ImplantProficiencyLevel getProficiencyLevel() {
-//        return level;
-//    }
-
-//    @Override
-//    public void setLevel(ImplantProficiencyLevel level) {
-//        this.level = level;
-//    }
 }
+

@@ -2,6 +2,8 @@ package org.abstruck.mc.cybermc.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeBuffers;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -28,10 +30,11 @@ public class ImplantGui extends ContainerScreen<OperatingTableContainer> {
         this.renderBackground(matrixStack);
         this.minecraft.getTextureManager().bind(IMPLANT_GUI);
 
+        this.minecraft.getEntityRenderDispatcher().getRenderer(this.minecraft.player).render(this.minecraft.player,0,0,matrixStack, this.minecraft.renderBuffers().bufferSource(),15728880);
+
         int i = (this.width - this.getXSize()) / 2;
         int j = (this.height - this.getYSize()) / 2;
         blit(matrixStack, i, j, 0, 0, getXSize(), getYSize(), this.textureWidth, textureHeight);
-
     }
 
     @Override

@@ -19,21 +19,8 @@ import java.util.stream.Collectors;
 
 public class ClientUpdateActiveImplantListPack extends BasePack{
     private static final String KEY = "key";
-    @Deprecated
-    PlayerEntity player;
-    @Deprecated
-    List<ImplantItemStack> activeImplants = new ArrayList<>();
-
-    @Deprecated
-    boolean isCreateSideRemote;
 
     ImplantInventory inventory;
-
-    @Deprecated
-    public ClientUpdateActiveImplantListPack(PlayerEntity player){
-        this.player = player;
-        this.isCreateSideRemote = false;
-    }
 
     public ClientUpdateActiveImplantListPack(ImplantInventory inventory){
         this.inventory = inventory;
@@ -41,7 +28,6 @@ public class ClientUpdateActiveImplantListPack extends BasePack{
 
     @Contract("_ -> new")
     public static @NotNull ClientUpdateActiveImplantListPack decode(@NotNull PacketBuffer packetBuffer){
-
         ImplantInventory implantInventory = new ImplantInventory();
         implantInventory.deserializeNBT(packetBuffer.readAnySizeNbt());
         return new ClientUpdateActiveImplantListPack(implantInventory);
